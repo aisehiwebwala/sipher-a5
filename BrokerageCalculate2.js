@@ -192,6 +192,15 @@ const HANDLE_CHANGE = (event) => {
   FILL_VALUES(TOTAl_CHARGES, { buy_price, sell_price, qty });
 };
 
+const calculatePercentage = (num1,num2)=>{
+  num1 = parseFloat(num1)
+  num2 = parseFloat(num2)
+
+  if (num2 == 0.00) return num2.toFixed(2)
+
+  return ((num1*100.00)/num2).toFixed(2)
+}
+
 const FILL_VALUES = (TOTAl_CHARGES, { buy_price, sell_price, qty }) => {
   const tbody = document.getElementsByTagName("tbody")[0];
   getc(tbody, 0, 1).innerText = TOTAl_CHARGES.BUY.GBKG.toFixed(2);
@@ -248,9 +257,9 @@ const FILL_VALUES = (TOTAl_CHARGES, { buy_price, sell_price, qty }) => {
 
   turnovers.children[0].innerText = parseFloat(buy_price*qty.toFixed(2)).toLocaleString("en-IN",{"style":"currency","currency":"INR"});
   turnovers.children[1].innerText = parseFloat(sell_price*qty.toFixed(2)).toLocaleString("en-IN",{"style":"currency","currency":"INR"});
-  turnovers.children[2].innerHTML = parseFloat(profit.toFixed(2)).toLocaleString("en-IN",{"style":"currency","currency":"INR"});
+  turnovers.children[2].innerHTML = parseFloat(profit.toFixed(2)).toLocaleString("en-IN",{"style":"currency","currency":"INR"}) + ` <span style="position: absolute;"><small style="font-size: 0.75rem;margin-left: 3px;">@ ${calculatePercentage(profit,buy_price*qty)}%</small></span>`;
   turnovers.children[3].innerText = parseFloat(total_charges.toFixed(2)).toLocaleString("en-IN",{"style":"currency","currency":"INR"});
-  turnovers.children[4].innerHTML = parseFloat(total_profit.toFixed(2)).toLocaleString("en-IN",{"style":"currency","currency":"INR"});
+  turnovers.children[4].innerHTML = parseFloat(total_profit.toFixed(2)).toLocaleString("en-IN",{"style":"currency","currency":"INR"}) + ` <span style="position: absolute;"><small style="font-size: 0.75rem;margin-left: 3px;">@ ${calculatePercentage(total_profit,buy_price*qty)}%</small></span>`;
 
   turnovers.children[2].className = profit>=0?"positive":"negative";
   turnovers.children[4].className = total_profit>=0?"positive":"negative";
