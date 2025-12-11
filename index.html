@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CIPHER - A5</title>
+    <style>
+        html {
+            font-size: 18px;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        }
+
+        * {
+            padding: 0;
+            margin: 0;
+            text-decoration: none;
+            outline: none;
+        }
+
+        .root {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        form * {
+            padding: 0.25rem;
+        }
+
+        .negative {
+            color: #eb5b3c;
+        }
+
+        .positive {
+            color: #00b386;
+        }
+        table{
+            font-size: 0.75rem;
+            border-spacing: 0 0.25rem;
+        }
+        table td,table th{
+            padding-block: 0.125rem;
+        }
+        tbody th{
+            text-align: left;
+            font-weight: 400;
+            color: #7c7e8c;
+        }
+        tbody td{
+            font-weight: 400;
+            color: #4f515a;
+        }
+        thead th{
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #4f515a;
+        }
+        tr td:nth-child(2n),tr th:nth-child(2n){
+            padding-left: 0.5rem;
+            text-align: right;
+        }
+        tr td:nth-child(3n),tr th:nth-child(3n){
+            padding-left: 0.75rem;
+            text-align: right;
+        }
+        tr td:nth-child(4n),tr th:nth-child(4n){
+            padding-left: 1.25rem;
+            text-align: right;
+            font-weight: 600;
+        }
+        .total_row td,.total_row th{
+            font-weight: 600;
+            border-top: 2px solid #bfbfbf;
+        }
+        summary{
+            background-color: #7c7e8c1a;
+            padding: 0.25rem;
+            border-radius: 2px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="root">
+        <h1>CIPHER - A5</h1>
+        <div style="display: flex; align-items: center;justify-content: space-between; gap:4rem;">
+            <div>
+                <form oninput="HANDLE_CHANGE()"
+                    style="display: flex; flex-direction: column;width: fit-content; gap: 0.5rem;">
+                    <select name="tr_type" id="tr_type">
+                        <option value="0">ITD</option>
+                        <option value="1">DEL</option>
+                    </select>
+                    <input type="text" inputmode="numeric" placeholder="QTY" name="qty" id="qty" autocomplete="off">
+                    <input type="text" inputmode="numeric" placeholder="BP" name="buyp" id="buyp" autocomplete="off">
+                    <input type="text" inputmode="numeric" placeholder="SP" name="sellp" id="sellp" autocomplete="off">
+                </form>
+            </div>
+            <div style="height: fit-content; text-align: right;" id="turnovers">
+                <div class="positive">₹0.00</div>
+                <div class="negative">₹0.00</div>
+                <div class="positive">₹0.00</div>
+            </div>
+        </div>
+        <div>
+            <details>
+                <summary>Details</summary>
+                <div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th ></th>
+                                <th>Buy</th>
+                                <th>Sell</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>Brokerage</th>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>STT (Securities Transaction Tax)</th>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>Stamp Duty</th>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>Exchange Transaction charge</th>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>SEBI Turnover charge</th>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>DP charges</th>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>Investor Protection Fund Trust charge</th>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>GST</th>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr class="total_row" >
+                                <th>Total</th>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                        <tfoot></tfoot>
+                    </table>
+                </div>
+            </details>
+        </div>
+    </div>
+    <script src="./BrokerageCalculate2.js"></script>
+</body>
+
+</html>
