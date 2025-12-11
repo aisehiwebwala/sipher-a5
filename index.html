@@ -80,6 +80,25 @@
             border-radius: 2px;
             cursor: pointer;
         }
+
+        .oiugbdnw{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            gap: 4em;
+        }
+
+        @media (max-width: 658px) {
+            .oiugbdnw{
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                justify-content: space-between;
+                gap: 4em;
+            }
+        }
+
     </style>
 </head>
 
@@ -87,7 +106,7 @@
 
     <div class="root">
         <h1>CIPHER - A5</h1>
-        <div style="display: flex; align-items: center;justify-content: space-between; gap:4rem;">
+        <div class="oiugbdnw">
             <div>
                 <form oninput="HANDLE_CHANGE()"
                     style="display: flex; flex-direction: column;width: fit-content; gap: 0.5rem;">
