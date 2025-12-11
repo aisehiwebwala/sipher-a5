@@ -194,7 +194,6 @@ const HANDLE_CHANGE = (event) => {
 
 const FILL_VALUES = (TOTAl_CHARGES, { buy_price, sell_price, qty }) => {
   const tbody = document.getElementsByTagName("tbody")[0];
-
   getc(tbody, 0, 1).innerText = TOTAl_CHARGES.BUY.GBKG.toFixed(2);
   getc(tbody, 0, 2).innerText = TOTAl_CHARGES.SELL.GBKG.toFixed(2);
   getc(tbody, 0, 3).innerText = (TOTAl_CHARGES.BUY.GBKG+TOTAl_CHARGES.SELL.GBKG).toFixed(2);
@@ -247,11 +246,13 @@ const FILL_VALUES = (TOTAl_CHARGES, { buy_price, sell_price, qty }) => {
   getc(tbody, 8, 2).innerText = total_sell_charges.toFixed(2);
   getc(tbody, 8, 3).innerText = total_charges.toFixed(2);
 
-  turnovers.children[0].innerText = parseInt(profit.toFixed(2)).toLocaleString("en-IN",{"style":"currency","currency":"INR"});
-  turnovers.children[1].innerText = parseInt(total_charges.toFixed(2)).toLocaleString("en-IN",{"style":"currency","currency":"INR"});
-  turnovers.children[2].innerText = parseInt(total_profit.toFixed(2)).toLocaleString("en-IN",{"style":"currency","currency":"INR"});
+  turnovers.children[0].innerText = parseFloat(buy_price*qty.toFixed(2)).toLocaleString("en-IN",{"style":"currency","currency":"INR"});
+  turnovers.children[1].innerText = parseFloat(sell_price*qty.toFixed(2)).toLocaleString("en-IN",{"style":"currency","currency":"INR"});
+  turnovers.children[2].innerHTML = parseFloat(profit.toFixed(2)).toLocaleString("en-IN",{"style":"currency","currency":"INR"});
+  turnovers.children[3].innerText = parseFloat(total_charges.toFixed(2)).toLocaleString("en-IN",{"style":"currency","currency":"INR"});
+  turnovers.children[4].innerHTML = parseFloat(total_profit.toFixed(2)).toLocaleString("en-IN",{"style":"currency","currency":"INR"});
 
-  turnovers.children[0].className = profit>=0?"positive":"negative";
-  turnovers.children[2].className = total_profit>=0?"positive":"negative";
+  turnovers.children[2].className = profit>=0?"positive":"negative";
+  turnovers.children[4].className = total_profit>=0?"positive":"negative";
 
 };
