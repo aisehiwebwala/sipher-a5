@@ -144,14 +144,14 @@ const HANDLE_CHANGE = (event) => {
   if (!qty) qty = 0.00;
 
 
-  const TOTAl_CHARGES = GET_DETAILED_SUMMARY(
+  const DETAILED_SUMMARY = GET_DETAILED_SUMMARY(
     buy_price,
     sell_price,
     qty,
     delivery
-  ).BROKERAGE_SUMMARY;
+  );
 
-  FILL_VALUES(TOTAl_CHARGES, { buy_price, sell_price, qty });
+  FILL_VALUES(DETAILED_SUMMARY, { buy_price, sell_price, qty });
 };
 
 const calculatePercentage = (num1, num2) => {
@@ -163,11 +163,13 @@ const calculatePercentage = (num1, num2) => {
   return ((num1 * 100.00) / num2).toFixed(2)
 }
 
-const FILL_VALUES = (TOTAl_CHARGES, { buy_price, sell_price, qty }) => {
+const FILL_VALUES = (DETAILED_SUMMARY, { buy_price, sell_price, qty }) => {
+  const TOTAl_CHARGES = DETAILED_SUMMARY.BROKERAGE_SUMMARY
   const tbody = document.getElementsByTagName("tbody")[0];
+
   getc(tbody, 0, 1).innerText = TOTAl_CHARGES.BUY.GBKG.toFixed(2);
   getc(tbody, 0, 2).innerText = TOTAl_CHARGES.SELL.GBKG.toFixed(2);
-  getc(tbody, 0, 3).innerText = (TOTAl_CHARGES.BUY.GBKG + TOTAl_CHARGES.SELL.GBKG).toFixed(2);
+  getc(tbody, 0, 3).innerText = (DETAILED_SUMMARY.totalGrowBrokerage).toFixed(2);
 
   getc(tbody, 1, 1).innerText = TOTAl_CHARGES.BUY.STT.toFixed(2);
   getc(tbody, 1, 2).innerText = TOTAl_CHARGES.SELL.STT.toFixed(2);
@@ -200,30 +202,17 @@ const FILL_VALUES = (TOTAl_CHARGES, { buy_price, sell_price, qty }) => {
 
   const turnovers = document.getElementById("turnovers");
 
-  let total_buy_charges = 0.00;
-  let total_sell_charges = 0.00;
-  for (x in TOTAl_CHARGES["BUY"]) {
-    total_buy_charges += TOTAl_CHARGES["BUY"][x];
-  }
-  for (x in TOTAl_CHARGES["SELL"]) {
-    total_sell_charges += TOTAl_CHARGES["SELL"][x];
-  }
+  getc(tbody, 8, 1).innerText = DETAILED_SUMMARY.totalBuyBrokerage.toFixed(2);
+  getc(tbody, 8, 2).innerText = DETAILED_SUMMARY.totalSellBrokerage.toFixed(2);
+  getc(tbody, 8, 3).innerText = DETAILED_SUMMARY.totalBrokerage.toFixed(2);
 
-  const profit = (sell_price - buy_price) * qty;
-  const total_charges = parseFloat((total_buy_charges + total_sell_charges).toFixed(2));
-  const total_profit = profit - total_charges;
+  turnovers.children[0].innerText = DETAILED_SUMMARY.totalBuyAmount.toLocaleString("en-IN", { "style": "currency", "currency": "INR" });
+  turnovers.children[1].innerText = DETAILED_SUMMARY.totalSellAmount.toLocaleString("en-IN", { "style": "currency", "currency": "INR" });
+  turnovers.children[2].innerHTML = DETAILED_SUMMARY.turnover.toLocaleString("en-IN", { "style": "currency", "currency": "INR" }) + ` <span style="position: absolute;"><small style="font-size: 0.75rem;margin-left: 3px;">@ ${calculatePercentage(DETAILED_SUMMARY.turnover, DETAILED_SUMMARY.totalBuyAmount)}%</small></span>`;
+  turnovers.children[3].innerText = DETAILED_SUMMARY.totalBrokerage.toLocaleString("en-IN", { "style": "currency", "currency": "INR" });
+  turnovers.children[4].innerHTML = DETAILED_SUMMARY.netPnL.toLocaleString("en-IN", { "style": "currency", "currency": "INR" }) + ` <span style="position: absolute;"><small style="font-size: 0.75rem;margin-left: 3px;">@ ${calculatePercentage(DETAILED_SUMMARY.netPnL, DETAILED_SUMMARY.totalBuyAmount)}%</small></span>`;
 
-  getc(tbody, 8, 1).innerText = total_buy_charges.toFixed(2);
-  getc(tbody, 8, 2).innerText = total_sell_charges.toFixed(2);
-  getc(tbody, 8, 3).innerText = total_charges.toFixed(2);
-
-  turnovers.children[0].innerText = parseFloat(buy_price * qty.toFixed(2)).toLocaleString("en-IN", { "style": "currency", "currency": "INR" });
-  turnovers.children[1].innerText = parseFloat(sell_price * qty.toFixed(2)).toLocaleString("en-IN", { "style": "currency", "currency": "INR" });
-  turnovers.children[2].innerHTML = parseFloat(profit.toFixed(2)).toLocaleString("en-IN", { "style": "currency", "currency": "INR" }) + ` <span style="position: absolute;"><small style="font-size: 0.75rem;margin-left: 3px;">@ ${calculatePercentage(profit, buy_price * qty)}%</small></span>`;
-  turnovers.children[3].innerText = parseFloat(total_charges.toFixed(2)).toLocaleString("en-IN", { "style": "currency", "currency": "INR" });
-  turnovers.children[4].innerHTML = parseFloat(total_profit.toFixed(2)).toLocaleString("en-IN", { "style": "currency", "currency": "INR" }) + ` <span style="position: absolute;"><small style="font-size: 0.75rem;margin-left: 3px;">@ ${calculatePercentage(total_profit, buy_price * qty)}%</small></span>`;
-
-  turnovers.children[2].className = profit >= 0 ? "positive" : "negative";
-  turnovers.children[4].className = total_profit >= 0 ? "positive" : "negative";
+  turnovers.children[2].className = DETAILED_SUMMARY.turnover >= 0 ? "positive" : "negative";
+  turnovers.children[4].className = DETAILED_SUMMARY.netPnL >= 0 ? "positive" : "negative";
 
 };
